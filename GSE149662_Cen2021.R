@@ -735,50 +735,7 @@ p <- ggplot(kegg,
 p
 
 #
-library(dplyr)
-library(purrr)
-library(ggplot2)
-library(cowplot)
 
-library(dplyr)
-library(purrr)
-library(ggplot2)
-library(cowplot)
-
-react %>% 
-  group_split(group) %>% 
-  map(
-    ~ggplot(., aes(y = fct_reorder(Description, -pvalue))) + 
-      geom_point(aes(size = Count,
-                     x=GeneRatio_num,colour = Log10adj.P)) +
-      scale_colour_gradient2( midpoint = 0, low = "blue3", mid = "white", high = "red3" ) +
-      ylab(NULL)+
-      xlab("Gene Ratio")+
-      theme(#axis.ticks.x = element_blank(),
-        axis.text.y = element_text(colour = "black",size=14),
-        axis.text.x = element_text(colour = "black",size=12),
-        legend.title = element_text(color = "black", size = 13))+
-      labs(color = "-log10 adj. p",size="Gene counts") +
-      theme(panel.grid.minor.y = element_blank())+
-      theme(panel.grid.major.x  = element_blank())+
-      facet_grid(group ~ ., scales='free',space = "free", labeller = function(x) label_value(x, multi_line = FALSE))
-  ) %>% 
-  plot_grid(plotlist = ., align = 'hv',ncol = 1)
-
-df %>% 
-  group_split(variables, season) %>% 
-  map(
-    ~ggplot(., aes(loc_x, loc_y, color = value)) + 
-      geom_point(size = 5) +
-      scale_colour_gradient2(
-        low = "#3366CC", 
-        mid = "white", 
-        high = "#FF3300", 
-        midpoint = median(.$value)
-      ) +
-      facet_grid(~ variables + season, labeller = function(x) label_value(x, multi_line = FALSE))
-  ) %>% 
-  plot_grid(plotlist = ., align = 'hv', ncol = 2)
 #======================================================
 # plot heatmaps for genes under certain pathways
 library("gplots")
